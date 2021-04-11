@@ -1,0 +1,29 @@
+opam-version: "2.0"
+maintainer: "kumar.shubham.off@gmail.com"
+authors: ["Shubham Kumar"]
+
+homepage: "https://github.com/shubhamkumar13/proj"
+bug-reports: "https://github.com/shubhamkumar13/proj/issues"
+dev-repo: "git+https://github.com/shubhamkumar13/proj.git"
+version: "dev"
+
+license: "MIT"
+
+synopsis: "Data structures and algorithms in OCaml"
+
+description: """
+	WIP
+"""
+
+build : [
+  ["dune" "subst"] {pinned}
+  ["dune" "build" "-p" name "-j" jobs]
+]
+
+run-test: ["dune" "runtest" "-p" name]
+
+depends: [
+  "dune"
+  "ocamlformat" { >= "0.17.0" }
+  "alcotest" {with-test}
+]

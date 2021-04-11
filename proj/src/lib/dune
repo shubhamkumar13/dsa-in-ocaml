@@ -1,0 +1,3 @@
+(library
+ (name proj_src)
+ (public_name proj.src))

@@ -1,0 +1,5 @@
+(executable
+ (name main)
+ (public_name proj_a_main)
+ (libraries proj.src)
+ (package proj))
