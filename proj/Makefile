@@ -1,4 +1,4 @@
-.PHONY: default build install uninstall test clean fmt
+.PHONY: default build install uninstall test clean fmt main
 .IGNORE: fmt
 
 default: build
@@ -20,5 +20,5 @@ clean:
 	git clean -dfXq
 
 fmt:
-	dune build @fmt > /dev/null
-	dune promote > /dev/null
+	dune build @fmt
+	dune promote
