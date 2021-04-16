@@ -1,34 +1,30 @@
-type 'a t = {
-  top : int option
-  size : int
-  arr : 'a option array 
-}
+type node = { value : int; mutable next : node option }
 
-let unwrap_fail : 'a option -> 'a = function
-  | None -> failwith "What you are trying to unwrap is a None type"
-  | Some(x) -> x
+type t = { mutable top : node option }
 
-let is_empty : 'a t -> bool = fun _ -> false
+let create_node = fun element -> {value=element; next=None}
 
-let is_full : 'a t -> bool = fun _ -> false
+let create_stack = fun () -> {top=None}
 
-let create : unit -> 'a t = fun () ->
-  let top = None in
-  let size = 100 in
-  let arr = Array.make size None in
-  {top; size; arr}
+let push = fun stack element ->
+  let node = create_node element in
+  node.next <- stack.top;
+  stack.top <- Some node  
 
-let push : 'a t -> 'a -> unit = fun stack x ->
-  let _ = if is_full arr then expand arr else () in
+let pop = fun stack ->
   match stack.top with
-  | None -> begin
-    stack.top <- Some(0);
-    stack.arr.(unwrap_fail stack.top) <- Some(x);
-  end
-  | Some(l) -> begin
-    stack.top <- Some(unwrap_fail top + 1);
-    stack.arr.(unwrap_fail stack.top) <- Some(x);
-  end
+  | None -> failwith "The stack is empty"
+  | Some node -> let out = node.value in
+    stack.top <- node.next;
+    out
 
-
-let pop : 'a t -> 'a = ()
+let fmt : t -> string =
+ fun stack ->
+  let rec fmt' stack acc =
+    match stack.top with
+    | None -> List.rev acc
+    | Some node -> fmt' { top = node.next } (node.value :: acc)
+  in
+  List.fold_left
+    (fun acc x -> acc ^ Printf.sprintf " -> %d" x)
+    "" (fmt' stack [])
