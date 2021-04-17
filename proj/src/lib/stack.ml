@@ -1,24 +1,25 @@
-type node = { value : int; mutable next : node option }
+type 'a node = { value : 'a; mutable next : 'a node option }
 
-type t = { mutable top : node option }
+type 'a t = { mutable top : 'a node option }
 
-let create_node = fun element -> {value=element; next=None}
+let create_node element = { value = element; next = None }
 
-let create_stack = fun () -> {top=None}
+let create_stack () = { top = None }
 
-let push = fun stack element ->
+let push stack element =
   let node = create_node element in
   node.next <- stack.top;
-  stack.top <- Some node  
+  stack.top <- Some node
 
-let pop = fun stack ->
+let pop stack =
   match stack.top with
   | None -> failwith "The stack is empty"
-  | Some node -> let out = node.value in
-    stack.top <- node.next;
-    out
+  | Some node ->
+      let out = node.value in
+      stack.top <- node.next;
+      out
 
-let fmt : t -> string =
+(* let fmt : 'a -> string =
  fun stack ->
   let rec fmt' stack acc =
     match stack.top with
@@ -27,4 +28,4 @@ let fmt : t -> string =
   in
   List.fold_left
     (fun acc x -> acc ^ Printf.sprintf " -> %d" x)
-    "" (fmt' stack [])
+    "" (fmt' stack []) *)

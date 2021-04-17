@@ -1,16 +1,16 @@
-type node = { value : int; mutable next : node option }
+type 'a node = { value : 'a; mutable next : 'a node option }
 
-type t = { mutable head : node option }
+type 'a t = { mutable head : 'a node option }
 
 let unwrap : 'a option -> 'a = function
   | None -> failwith "Can't unwrap"
   | Some x -> x
 
-let create_node : int -> node = fun x -> { value = x; next = None }
+let create_node : 'a -> 'a node = fun x -> { value = x; next = None }
 
-let create_list : unit -> t = fun () -> { head = None }
+let create_list : unit -> 'a t = fun () -> { head = None }
 
-let insert_list : t -> int -> unit =
+let insert_list : 'a t -> 'a -> unit =
  fun lst x ->
   let node = create_node x in
 
@@ -23,23 +23,21 @@ let insert_list : t -> int -> unit =
   | Some x -> node.next <- Some x);
   lst.head <- Some node
 
-let delete_list = fun lst x ->
-  let p = {head=lst.head} in
-  let rec delete_list' = fun lst ->
+let delete_list lst x =
+  let p = { head = lst.head } in
+  let rec delete_list' lst =
     match lst.head with
     | None -> failwith "Empty list"
     | Some node ->
-      if (unwrap node.next).value = x then
-        node.next <- (unwrap node.next).next
-      else begin
-        p.head <- node.next;
-        delete_list' p
-      end
-    in
+        if (unwrap node.next).value = x then
+          node.next <- (unwrap node.next).next
+        else (
+          p.head <- node.next;
+          delete_list' p)
+  in
   delete_list' p
-        
 
-let fmt_list : t -> string =
+(* let fmt_list : 'a t -> string =
  fun lst ->
   let rec fmt_list' lst acc =
     match lst.head with
@@ -48,4 +46,4 @@ let fmt_list : t -> string =
   in
   List.fold_left
     (fun acc x -> acc ^ Printf.sprintf " -> %d" x)
-    "" (fmt_list' lst [])
+    "" (fmt_list' lst []) *)
