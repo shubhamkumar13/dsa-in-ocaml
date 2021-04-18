@@ -1,5 +1,20 @@
 (executable
  (name main)
+ (modules main)
  (public_name proj_a_main)
+ (libraries proj.src)
+ (package proj))
+
+(executable
+ (name exercise_3_1)
+ (modules exercise_3_1)
+ (public_name exercise_3_1)
+ (libraries proj.src)
+ (package proj))
+
+(executable
+ (name exercise_3_2)
+ (modules exercise_3_2)
+ (public_name exercise_3_2)
  (libraries proj.src)
  (package proj))

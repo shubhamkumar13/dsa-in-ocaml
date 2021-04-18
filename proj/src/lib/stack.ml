@@ -6,6 +6,11 @@ let create_node element = { value = element; next = None }
 
 let create_stack () = { top = None }
 
+let is_empty : 'a t -> bool = fun stack ->
+  match stack.top with
+  | None -> true
+  | Some(_) -> false
+
 let push stack element =
   let node = create_node element in
   node.next <- stack.top;
